@@ -41,7 +41,7 @@ const Map<String, String> en_US = {
   "loginPwdFormat": "6 to 20 characters, at least including numbers and letters",
   "passwordLogin": "Password Login",
   'through': 'Through %s',
-  "home": "OpenIM",
+  "home": "Banana",
   "contacts": "Contacts",
   "workbench": "Discover",
   "mine": "Mine",

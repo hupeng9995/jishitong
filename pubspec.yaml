@@ -108,6 +108,9 @@ dependency_overrides:
   flutter_background: ^1.3.0+1
   video_player_android: 2.7.1  # https://github.com/flutter/flutter/issues/81804
   flutter_webrtc: 0.12.10
+  intl: any
+  syncfusion_flutter_sliders: any
+  syncfusion_flutter_core: any
 
 dev_dependencies:
   flutter_test:

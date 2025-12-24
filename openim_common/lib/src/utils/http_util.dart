@@ -35,8 +35,8 @@ class HttpUtil {
       }));
 
     dio.options.baseUrl = Config.imApiUrl;
-    dio.options.connectTimeout = const Duration(seconds: 30); //30s
-    dio.options.receiveTimeout = const Duration(seconds: 30);
+    dio.options.connectTimeout = const Duration(seconds: 60); //60s
+    dio.options.receiveTimeout = const Duration(seconds: 60);
   }
 
   static String get operationID => DateTime.now().millisecondsSinceEpoch.toString();

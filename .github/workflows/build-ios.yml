@@ -1,0 +1,55 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.5'
+        channel: 'stable'
+    
+    - name: Install dependencies
+      run: |
+        flutter pub get
+        cd ios
+        pod install
+        cd ..
+    
+    - name: Build iOS (No Codesign)
+      run: |
+        flutter build ios --release --no-codesign
+    
+    - name: Create IPA
+      run: |
+        mkdir -p build/ios/ipa
+        cd build/ios/iphoneos
+        mkdir Payload
+        cp -r Runner.app Payload/
+        zip -r ../ipa/openim-app.ipa Payload
+        cd ../../..
+    
+    - name: Upload IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: iOS-App
+        path: build/ios/ipa/openim-app.ipa
+        retention-days: 30
+    
+    - name: Upload to Release (if tagged)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/ios/ipa/openim-app.ipa
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
