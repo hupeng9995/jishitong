@@ -16,14 +16,18 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.5'
+        flutter-version: '3.19.6'
         channel: 'stable'
     
     - name: Install dependencies
       run: |
+        flutter clean
         flutter pub get
+    
+    - name: Install iOS dependencies
+      run: |
         cd ios
-        pod install
+        pod install --repo-update
         cd ..
     
     - name: Build iOS (No Codesign)
@@ -34,7 +38,7 @@ jobs:
       run: |
         mkdir -p build/ios/ipa
         cd build/ios/iphoneos
-        mkdir Payload
+        mkdir -p Payload
         cp -r Runner.app Payload/
         zip -r ../ipa/openim-app.ipa Payload
         cd ../../..
